@@ -1,0 +1,56 @@
+[package]
+name = "drhpotter"
+version = "0.1.0"
+edition = "2021"
+authors = ["DrHPotter Contributors"]
+description = "A minimal, secure SSH honeypot written in Rust"
+license = "MIT"
+repository = "https://github.com/Integrated-Privacy-and-Communications/DrHPotter"
+
+[dependencies]
+# SSH implementation
+russh = "0.45"
+russh-keys = "0.45"
+
+# Async runtime
+tokio = { version = "1.42", features = ["rt-multi-thread", "net", "macros", "time", "sync", "fs", "io-util"] }
+async-trait = "0.1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Utilities
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.11", features = ["v4", "serde"] }
+sha2 = "0.10"
+hex = "0.4"
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.14"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 0
+
+# Ensure no unsafe code in our codebase
+[lints.rust]
+unsafe_code = "forbid"
+
+[[bin]]
+name = "drhpotter"
+path = "src/main.rs"
+
+[lib]
+name = "drhpotter"
+path = "src/lib.rs"
