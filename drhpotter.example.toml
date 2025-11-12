@@ -1,0 +1,80 @@
+# DrHPotter Configuration Example
+# Copy this file to drhpotter.toml and customize as needed
+
+[server]
+# SSH server bind address
+listen_addr = "0.0.0.0"
+# Port to listen on
+port = 2222
+# Maximum concurrent connections
+max_connections = 100
+# Session timeout in seconds (30 minutes)
+session_timeout_secs = 1800
+# Authentication rejection delay (prevents fingerprinting)
+auth_delay_secs = 2
+
+[security]
+# Enable rate limiting
+rate_limit_enabled = true
+# Maximum connections per IP address
+max_connections_per_ip = 10
+# Rate limit time window in seconds
+rate_limit_window_secs = 60
+# IP addresses to never rate limit (whitelist)
+whitelist_ips = []
+# IP addresses to immediately reject (blacklist)
+blacklist_ips = []
+
+[logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+# Log format: json, pretty
+format = "json"
+# Log output: stdout, file
+output = "stdout"
+# Log file path (only used when output = "file")
+# file_path = "/var/log/drhpotter/honeypot.log"
+
+[storage]
+# Enable persistent session storage
+enabled = true
+# Storage backend: file, sqlite
+backend = "file"
+
+# File storage configuration (used when backend = "file")
+[storage.file]
+base_path = "./data"
+sessions_dir = "./data/sessions"
+files_dir = "./data/captured_files"
+
+[shell]
+# Hostname to present to attackers
+hostname = "honeypot"
+# Enable command history tracking
+history_enabled = true
+# Maximum commands to track per session
+max_history = 1000
+# Welcome banner (shown after login)
+banner = """
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-58-generic x86_64)
+
+Last login: Sat Nov  9 10:30:15 2025 from 192.168.1.1
+"""
+
+[capture]
+# Capture files downloaded by attackers
+capture_downloads = true
+# Maximum file size to capture in bytes (10MB)
+max_file_size_bytes = 10485760
+
+# Environment Variable Overrides:
+# You can override any setting using environment variables:
+#
+# DRHPOTTER_SERVER_PORT=3333          - Override server port
+# DRHPOTTER_SERVER_LISTEN_ADDR=0.0.0.0  - Override listen address
+# DRHPOTTER_LOG_LEVEL=debug          - Override log level
+# DRHPOTTER_LOG_FORMAT=pretty        - Override log format
+#
+# Example:
+# $ export DRHPOTTER_SERVER_PORT=3333
+# $ drhpotter

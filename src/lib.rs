@@ -7,10 +7,12 @@
 #![warn(missing_docs)]
 
 pub mod capture;
+pub mod config;
 pub mod security;
 pub mod server;
 pub mod shell;
 
+pub use config::Config;
 pub use server::SshHoneypot;
 
 /// Result type for DrHPotter operations
